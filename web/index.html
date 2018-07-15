@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Gallery</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <style>
+        .image-heading {
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-nav-demo"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Images</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-nav-demo">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="jumbotron">
+        <h1><span class="glyphicon glyphicon-camera" aria-hidden="true"></span>Image Gallery</h1>
+    </div>
+
+    <div class="row flex" id="images">
+
+    </div>
+</div>
+
+
+<script src="jquery.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<script src="handlebars.js"></script>
+<script id="entry-template" type="text/x-handlebars-template">
+    <div class="col-lg-4 col-sm-6">
+        <h2 class="image-heading">{{data.attributes.title}}</h2>
+        <div class="thumbnail">
+            <img src="data:{{data.attributes.file.[0].type}};base64,{{data.attributes.file.[0].contents}}">
+        </div>
+    </div>
+</script>
+
+<script>
+    const domain = "";
+    $(document).ready(function () {
+        console.log("load images");
+        $.ajax({
+            url: domain + '/api/gallery_image',
+            success: function (response) {
+                console.log("images", response);
+                const source = document.getElementById("entry-template").innerHTML;
+                const template = Handlebars.compile(source);
+                const images = response.data;
+                for (let i = 0; i < images.length; i++) {
+                    $.ajax({
+                        url: domain + '/api/gallery_image/' + images[i].id,
+                        success: function (response) {
+                            console.log("image data", response);
+                            const html = template(response);
+                            $("#images").append(html);
+                        }
+                    })
+
+                }
+
+            }
+        })
+    })
+</script>
+
+</body>
+</html>

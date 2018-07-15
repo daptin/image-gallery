@@ -1,0 +1,19 @@
+Tables:
+  - TableName: gallery_image
+    Columns:
+      - Name: title
+        DataType: varchar(500)
+        ColumnType: label
+      - Name: file
+        DataType: text
+        IsNullable: true
+        ColumnType: image.png|jpg|jpeg|gif|tiff
+        IsForeignKey: true
+        ForeignKeyData:
+          DataSource: cloud_store
+          Namespace: local-store
+          KeyName: images
+Imports:
+  - FilePath: /opt/daptin/initial_data.json
+    Entity: site
+    FileType: json

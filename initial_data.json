@@ -1,0 +1,20 @@
+{
+  "cloud_store": [
+    {
+      "name": "local-store",
+      "store_type": "local",
+      "store_provider": "local",
+      "root_path": "/opt/daptin/gallery",
+      "store_parameters": "{}",
+      "reference_id": "ca122915-4dbb-42cf-aa19-c89a14e6fa9a"
+    }
+  ],
+  "site": [
+    {
+      "name": "gallery",
+      "hostname": "gallery.daptin.com",
+      "path": "gallery",
+      "cloud_store_id": "ca122915-4dbb-42cf-aa19-c89a14e6fa9a"
+    }
+  ]
+}
